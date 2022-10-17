@@ -1,0 +1,228 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Space Trivia!</title>
+
+    <!-- CSS -->
+    <link href="_css/space-trivia.css" type="text/css" rel="stylesheet" />
+
+    <!-- FONTS -->
+    <link rel="stylesheet" href="https://use.typekit.net/wch2bfy.css">
+
+    <!-- SCRIPTS -->
+    <script src="_scripts/jquery-3.4.1.js" type="text/javascript"></script>
+    <script src="_scripts/fit-text.js" type="text/javascript"></script>
+
+    <!-- JS -->
+    <script src="_js/space-trivia.js" type="text/javascript"></script>
+</head>
+<body>
+    <!-- animations - all out of document flow (absolute) -->
+    <div id="animations">
+        <img id="rocket1" class="rocket" src="_img/rocketship.gif" />
+        <img id="rocket2" class="rocket" src="_img/rocketship.gif" />
+        <img id="meteor" src="_img/meteor.gif" class="meteor-fly-by" />
+    </div>
+
+    <!--actual body content - follows document flow (relative)-->
+    <div id="content">
+        <header>
+            <span id="space" class="space header-text">Space</span>
+            <span id="trivia" class="trivia header-text">Trivia</span>
+            <img id="big-planet" class="big-planet" src="_img/big-planet.png" />
+            <div id="game-inner" class="game-inner abs-hor-center">THE GAME</div>
+        </header>
+        <div id="welcome-div" class="welcome-fade">
+            <div id="welcome" class="box">
+                <h2>
+                    WELCOME TO SPACE TRIVIA: THE GAME
+                </h2>
+                <h5>
+                    CLICK BELOW TO GET STARTED
+                </h5>
+            </div>
+            <div id="instruct-story-div">
+                <div id="instructions" class="box button" onclick="showInstructions()">
+                    <h5>
+                        INSTRUCTIONS
+                    </h5>
+                </div>
+                <div id="story" class="box button" onclick="showStory()">
+                    <h5>
+                        STORY
+                    </h5>
+                </div>
+            </div>
+            <div id="start" class="box button" onclick="nextLevel()">
+                <h3>
+                    START
+                </h3>
+            </div>
+        </div>
+        <div id="instructions-div">
+            <div class="box">
+                <h4>INSTRUCTIONS</h4>
+                <p>
+                    THE INSTRUCTIONS ARE SIMPLE, ANSWER SPACE THEMED TRIVIA QUESTIONS BY SELECTING THE CORRECT CHOICE.
+                </p>
+                <p>
+                    THERE ARE FIVE LEVELS AND FIVE QUESTIONS PER LEVEL FOR A TOTAL OF 25 QUESTIONS. EACH LEVEL GETS HARDER IN DIFFICULTY.
+                </p>
+                <p>
+                    THE QUESTIONS ARE RANDOMIZED EVERY TIME YOU PLAY, SO DON'T TRY TO MEMORIZE THE ANSWERS.
+                </p>
+                <p>
+                    LASTLY, YOU HAVE FIVE LIVES TO WORK WITH, SO CHOOSE WISELY.
+                </p>
+            </div>
+            <div class="main-box button" onclick="hideInstructions()">
+                <h5>
+                    RETURN TO MAIN MENU
+                </h5>
+            </div>
+        </div>
+        <div id="story-div">
+            <div class="box">
+                <h4>STORY</h4>
+                <p>
+                    IT IS THE YEAR 2130 & YOU ARE AN EMPLOYEE OF THE UNITED STATES INTERSTELLAR TRAVEL ADMINISTRATION AS A SPACE TRAFFIC CONTROLLER. IT IS A BUSY DAY AS DOZENS OF SHIPS ARE SETTING COURSE IN SEARCH FOR NEW COLONIES AMONGST THE STARS.
+                </p>
+                <p>
+                    YOUR MAIN ROLE IS TO GUIDE THESE OUTGOING VESSELS TO THEIR DESTINATIONS BY PERFORMING A SERIES OF TASKS WITH YOUR ELECTRONIC APPARATUS. THE ROUTE CAN ONLY BE GUARANTEED A SUCCESS IF YOU USE YOUR BRAIN CAREFULLY.
+                </p>
+                <p>
+                    PERFORM ADAMANTLY AND YOU WILL GET PROMOTED, BUT IF YOU GUIDE TOO MANY SHIPS OFF COURSE, THEY WILL BANISH YOU TO THE OUTER RIM.
+                </p>
+            </div>
+            <div class="main-box button" onclick="hideStory()">
+                <h5>
+                    RETURN TO MAIN MENU
+                </h5>
+            </div>
+        </div>
+        <div id="levels">
+            <div id="lvl-box" class="box no-text-select">
+                <h5 id="lvl-type">
+                    LVL <span id="lvl-num"></span> - <span class="lvl-name"></span>
+                </h5>
+                <div class="flex-break"></div>
+                <h4 id="question-num"></h4>
+            </div>
+            <div id="planet">
+                <img id="lvl-planet" />
+                <img id="explosion" src="_img/explosion.gif" class="abs-center-center" />
+                <img id="rocket-game" src="_img/rocketship.gif" />
+            </div>
+            <div id="question-answer">
+                <div id="question" class="box question-box no-text-select">
+                    HERE IS A QUESTION, I BELIEVE IT GOES IN THIS BOX, CORRECT?
+                </div>
+                <div id="answer1" class="box answer-box button no-text-select disable-click">
+                    ANSWER 1, THIS IS AN ANSWER
+                </div>
+                <div id="answer2" class="box answer-box button no-text-select disable-click">
+                    ANSWER 2, THIS IS AN ANSWER
+                </div>
+                <div id="answer3" class="box answer-box button no-text-select disable-click">
+                    ANSWER 3, THIS IS AN ANSWER
+                </div>
+                <div id="answer4" class="box answer-box button no-text-select disable-click">
+                    ANSWER 4, THIS IS AN ANSWER
+                </div>
+                <div id="lives-box" class="box no-text-select">
+                    LIVES: x<span id="lives-num"></span>
+                    <img src="_img/rocketship-life.png" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- overlay fields - all out of document flow (absolute) -->
+    <div id="next-level" onclick="levelBegin()">
+        <div class="fix-center-center no-text-select">
+            <h1 id="level-name">
+                LEVEL <span id="level-num"></span>
+            </h1>
+            <h3 class="lvl-name"></h3>
+            <br />
+            <h5 id="click-anywhere">
+                CLICK ANYWHERE TO BEGIN
+            </h5>
+        </div>
+    </div>
+
+    <!-- good job -->
+    <div id="good-job" class="fix-center-center no-text-select">
+        <h1>
+            GOOD JOB
+        </h1>
+    </div>
+
+    <!-- you win -->
+    <div id="you-win" class="fix-center-center no-text-select">
+        <h1>
+            YOU WIN
+        </h1>
+        <div class="main-box button" onclick="returnToMainMenu()">
+            <h4>
+                RETURN TO MAIN MENU
+            </h4>
+        </div>
+    </div>
+
+    <!-- game over -->
+    <div id="game-over" class="fix-center-center no-text-select">
+        <h1>
+            GAME OVER
+        </h1>
+        <div class="main-box button" onclick="returnToMainMenu()">
+            <h4>
+                RETURN TO MAIN MENU
+            </h4>
+        </div>
+    </div>
+
+    <!-- sound effects -->
+    <audio id="hover-sound" class="effect" preload="auto">
+        <source src="_sounds/hover-sound.mp3" type="audio/mp3" />
+    </audio>
+    <audio id="click-sound" class="effect" preload="auto">
+        <source src="_sounds/click-sound.mp3" type="audio/mp3" />
+    </audio>
+    <audio id="spaceship-landing" class="effect" preload="auto">
+        <source src="_sounds/spaceship-landing.mp3" type="audio/mp3" />
+    </audio>
+    <audio id="explosion-sound" class="effect" preload="auto">
+        <source src="_sounds/explosion.mp3" type="audio/mp3" />
+    </audio>
+    <audio id="success-sound" class="effect" preload="auto">
+        <source src="_sounds/success.mp3" type="audio/mp3" />
+    </audio>
+
+    <!-- music -->
+    <audio id="start-music" class="music" preload="auto" loop>
+        <source src="_sounds/start-music.mp3" type="audio/mp3" />
+    </audio>
+    <audio id="next-level-sound" class="music" preload="auto">
+        <source src="_sounds/next-level-sound.mp3" type="audio/mp3" />
+    </audio>
+    <audio id="level1" class="music" preload="auto" loop>
+        <source src="_sounds/level1.mp3" type="audio/mp3" />
+    </audio>
+    <audio id="level2" class="music" preload="auto" loop>
+        <source src="_sounds/level2.mp3" type="audio/mp3" />
+    </audio>
+    <audio id="level3" class="music" preload="auto" loop>
+        <source src="_sounds/level3.mp3" type="audio/mp3" />
+    </audio>
+    <audio id="level4" class="music" preload="auto" loop>
+        <source src="_sounds/level4.mp3" type="audio/mp3" />
+    </audio>
+    <audio id="level5" class="music" preload="auto" loop>
+        <source src="_sounds/level5.mp3" type="audio/mp3" />
+    </audio>
+</body>
+</html>
